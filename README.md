@@ -34,6 +34,14 @@ Discord's REST API (sending messages, loading history, slash commands) goes over
 
 Real-time incoming messages however travel over a **WebSocket** connection (`wss://gateway.discord.gg`). mitmproxy can technically intercept WebSocket frames, but `addon.py` currently does not implement WebSocket parsing — so live incoming messages are **not** captured, only the REST calls are.
 
+### How AEGIS sends messages as the user
+
+Every request Discord makes through the proxy includes an `Authorization` header containing the user's authentication token — this is how Discord's API identifies who is making the request. Since all traffic passes through mitmproxy in plaintext (after TLS termination), `addon.py` can read this token directly from the intercepted request headers.
+
+When a keyword match triggers AEGIS, the token and channel ID are passed to `punish.py`. Once the punishment sequence ends, it uses them to call the Discord REST API directly — bypassing the proxy entirely (using a no-proxy `urllib` opener) so the cooldown block doesn't interfere — and posts the AEGIS message as the logged-in user, optionally attaching the compressed webcam footage.
+
+No credentials are stored anywhere: the token is only kept in memory for the duration of the punishment sequence.
+
 ### Why Snap (and apt) installs don't work
 
 The interception relies on being able to launch Discord with arbitrary Chromium flags. This breaks with Snap for several reasons:
