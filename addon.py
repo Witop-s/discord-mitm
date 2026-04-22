@@ -22,7 +22,7 @@ import punish
 LOG_READS = False
 
 # Add keywords here to highlight messages containing them
-ALERT_KEYWORDS = ["croissant", "croisant", "croissent", "croisent", "test3816"]  # e.g. ["password", "secret", "token"]
+ALERT_KEYWORDS = ["croissant", "very_secret_word!"]  # e.g. ["password", "secret", "token"]
 
 # Set to True to block outgoing messages that match ALERT_KEYWORDS
 BLOCK_MATCHING = True
