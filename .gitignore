@@ -1,0 +1,14 @@
+# Runtime & logs
+.mitmproxy.pid
+mitm.log
+
+# Captured traffic (potentially sensitive)
+captures/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Claude
+.claude/
